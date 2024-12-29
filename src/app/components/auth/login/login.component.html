@@ -1,1 +1,27 @@
-<p>login works!</p>
+<div class="login-container">
+  <h2>Login! 👋</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <label for="email">Email: </label>
+    <input
+      id="email"
+      type="email"
+      formControlName="email"
+      placeholder="test@gmail.com"
+    />
+    <p [hidden]="email.valid || email.untouched">Enter correct email</p>
+
+    <label for="password">Password: </label>
+    <input
+      id="password"
+      type="password"
+      formControlName="password"
+      placeholder="******"
+    />
+    <p [hidden]="password.valid || password.untouched">
+      Password must be more than 6 chars.
+    </p>
+
+    <button type="submit" [disabled]="!loginForm.valid">Login</button>
+    <button [disabled]="loginForm.pristine" (click)="onReset()">Reset</button>
+  </form>
+</div>
