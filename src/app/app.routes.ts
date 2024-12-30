@@ -6,6 +6,7 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { ViewMeetingComponent } from './components/meeting/view-meeting/view-meeting.component';
 import { UpdateMeetingComponent } from './components/meeting/update-meeting/update-meeting.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { AboutComponent } from './components/about/about.component';
 
 export const routes: Routes = [
   { path: 'create-meeting', component: CreateMeetingComponent },
@@ -15,5 +16,12 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent },
   { path: '', redirectTo: '/all-meetings', pathMatch: 'full' },
+  {
+    path: 'about',
+    loadComponent: () =>
+      import('./components/about/about.component').then(
+        (mod) => mod.AboutComponent
+      ),
+  },
   { path: '**', component: NotFoundComponent },
 ];
