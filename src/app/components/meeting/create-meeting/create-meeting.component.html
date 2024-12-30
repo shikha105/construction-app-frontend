@@ -1,1 +1,100 @@
-<p>create-meeting works!</p>
+<div class="create-meeting-container">
+  <h2>Create Meeting</h2>
+  <form [formGroup]="meetingForm" (ngSubmit)="onSubmit()">
+    <label for="title">Title: </label>
+    <input
+      id="title"
+      type="text"
+      formControlName="title"
+      placeholder="Title of meeting"
+    />
+    <p
+      [hidden]="
+        meetingForm.get('title')?.valid || meetingForm.get('title')?.untouched
+      "
+    >
+      title is required.
+    </p>
+    <br />
+    <label for="startDate">Start Date: </label>
+    <input id="startDate" type="date" formControlName="startDate" />
+    <p
+      [hidden]="
+        meetingForm.get('startDate')?.valid ||
+        meetingForm.get('startDate')?.untouched
+      "
+    >
+      Enter correct start date
+    </p>
+    <br />
+    <label for="startTime">Start Time: </label>
+    <input id="startTime" type="time" formControlName="startTime" />
+    <p
+      [hidden]="
+        meetingForm.get('startTime')?.valid ||
+        meetingForm.get('startTime')?.untouched
+      "
+    >
+      Start time is required
+    </p>
+    <br />
+    <label for="endDate">End Date: </label>
+    <input id="endDate" type="date" formControlName="endDate" />
+    <p
+      [hidden]="
+        meetingForm.get('endDate')?.valid ||
+        meetingForm.get('endDate')?.untouched
+      "
+    >
+      End date is required
+    </p>
+    <br />
+    <label for="endTime">End Time: </label>
+    <input id="endTime" type="time" formControlName="endTime" />
+    <p
+      [hidden]="
+        meetingForm.get('endTime')?.valid ||
+        meetingForm.get('endTime')?.untouched
+      "
+    >
+      End time is required
+    </p>
+    <br />
+    <label for="description">Description: </label>
+    <textarea
+      id="description"
+      formControlName="description"
+      placeholder="description of the meeting"
+    ></textarea>
+    <br />
+    <label>Location </label>
+    <select name="location" id="location" formControlName="location">
+      @for (location of locations; track location) {
+      <option [value]="location.value">{{ location.viewValue }}</option>
+      }
+    </select>
+    <br />
+    <label>Guests: </label>
+    <input
+      type="text"
+      id="guests"
+      (keyup)="myFunction()"
+      placeholder="Search for guests.."
+      formControlName="guests"
+    />
+    @if (meetingForm.get('guests')?.touched) {
+    <div>
+      <ul>
+        @for (item of items; track $index) {
+        <li>{{ item }}</li>
+        }
+      </ul>
+    </div>
+    }
+
+    <button type="submit" [disabled]="!meetingForm.valid">
+      Create Meeting
+    </button>
+    <button [disabled]="meetingForm.pristine" (click)="onReset()">Reset</button>
+  </form>
+</div>
