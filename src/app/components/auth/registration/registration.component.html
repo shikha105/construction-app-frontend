@@ -1,1 +1,68 @@
-<p>registration works!</p>
+<div class="registration-container">
+  <h2>Register! 👋</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <label for="name">Name: </label>
+    <input
+      id="name"
+      type="text"
+      formControlName="name"
+      placeholder="John Doe"
+    />
+    <p
+      [hidden]="
+        registerForm.get('name')?.valid || registerForm.get('name')?.untouched
+      "
+    >
+      Name should be of atleast 3 letters.
+    </p>
+
+    <label for="email">Email: </label>
+    <input
+      id="email"
+      type="email"
+      formControlName="email"
+      placeholder="test@gmail.com"
+    />
+    <p
+      [hidden]="
+        registerForm.get('email')?.valid || registerForm.get('email')?.untouched
+      "
+    >
+      Enter correct email
+    </p>
+
+    <label for="password">Password: </label>
+    <input
+      id="password"
+      type="password"
+      formControlName="password"
+      placeholder="******"
+    />
+    <p
+      [hidden]="
+        registerForm.get('password')?.valid ||
+        registerForm.get('password')?.untouched
+      "
+    >
+      Password must be more than 6 chars.
+    </p>
+
+    <label for="about">About: </label>
+    <textarea
+      id="about"
+      formControlName="about"
+      placeholder="about this person"
+    ></textarea>
+
+    <label for="role">Choose a role:</label>
+    <select name="role" id="role" formControlName="role">
+      <option value="apprentice">Apprentice</option>
+      <option value="officer">Officer</option>
+    </select>
+
+    <button type="submit" [disabled]="!registerForm.valid">Register</button>
+    <button [disabled]="registerForm.pristine" (click)="onReset()">
+      Reset
+    </button>
+  </form>
+</div>
