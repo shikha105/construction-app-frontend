@@ -12,5 +12,6 @@ export const routes: Routes = [
   { path: 'update-meeting', component: UpdateMeetingComponent },
   { path: 'view-meeting', component: ViewMeetingComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'registration', component: RegistrationComponent },
+  { path: 'register', component: RegistrationComponent },
+  { path: '', redirectTo: '/all-meetings', pathMatch: 'full' },
 ];
