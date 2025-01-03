@@ -7,12 +7,15 @@ import { ViewMeetingComponent } from './components/meeting/view-meeting/view-mee
 import { UpdateMeetingComponent } from './components/meeting/update-meeting/update-meeting.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { AboutComponent } from './components/about/about.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: 'create-meeting', component: CreateMeetingComponent },
   { path: 'all-meetings', component: AllMeetingsComponent },
   { path: 'update-meeting', component: UpdateMeetingComponent },
   { path: 'view-meeting', component: ViewMeetingComponent },
+  { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent },
   { path: '', redirectTo: '/all-meetings', pathMatch: 'full' },
