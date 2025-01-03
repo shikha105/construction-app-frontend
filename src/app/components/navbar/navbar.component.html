@@ -40,8 +40,14 @@
 
     <div>
       <span>
-        Welcome,
-        {{ name }}, your role is {{ role?.name }}
+        <a
+          routerLink="/profile"
+          routerLinkActive="active"
+          ariaCurrentWhenActive="page"
+        >
+          Welcome,
+          {{ name }}
+        </a>
       </span>
       <button (click)="logout()">
         <span> Logout </span>
