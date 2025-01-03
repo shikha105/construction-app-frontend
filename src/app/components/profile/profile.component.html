@@ -1,0 +1,27 @@
+@if(user){
+<div>
+  <div>
+    <h2>User Profile</h2>
+  </div>
+  <table>
+    <tbody>
+      <tr>
+        <th>Name:</th>
+        <td>{{ user.name }}</td>
+      </tr>
+      <tr>
+        <th>Email:</th>
+        <td>{{ user.email }}</td>
+      </tr>
+      <tr>
+        <th>About:</th>
+        <td>{{ user.about }}</td>
+      </tr>
+      <tr>
+        <th>Role:</th>
+        <td>{{ user.role?.name }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+}
