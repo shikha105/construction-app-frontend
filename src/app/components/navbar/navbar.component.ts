@@ -27,7 +27,8 @@ export class NavbarComponent {
   }
 
   logout() {
-    return this.authService.logout();
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
   getName() {
     const user = this.authService.getUserDetails();
