@@ -56,8 +56,9 @@
 
     <label for="role">Choose a role:</label>
     <select name="role" id="role" formControlName="role">
-      <option value="apprentice">Apprentice</option>
-      <option value="officer">Officer</option>
+      @for (role of roles; track role.id) {
+      <option [value]="role.name">{{ role.name }}</option>
+      }
     </select>
 
     <button type="submit" [disabled]="!registerForm.valid">Register</button>

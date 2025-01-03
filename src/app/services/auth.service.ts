@@ -5,6 +5,7 @@ import { LoginResponse } from '../interfaces/login-response';
 import { catchError, map, throwError } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { jwtDecode } from 'jwt-decode';
+import { RegisterResponse } from '../interfaces/register-reponse';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,17 @@ export class AuthService {
       .pipe(
         map((response: LoginResponse) => {
           localStorage.setItem(this.jwtToken, response.jwtToken);
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  register(data: any): Observable<RegisterResponse> {
+    return this.http
+      .post<RegisterResponse>(`${this.apiUrl}/auth/register`, data)
+      .pipe(
+        map((response: RegisterResponse) => {
           return response;
         }),
         catchError(this.handleError)
