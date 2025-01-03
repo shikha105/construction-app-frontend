@@ -13,6 +13,7 @@ import { RegisterResponse } from '../interfaces/register-reponse';
 export class AuthService {
   private apiUrl = environment.apiUrl;
   private jwtToken = 'jwtToken';
+  private isBrowser: boolean = typeof window !== 'undefined';
   constructor(private http: HttpClient) {}
 
   login(data: any): Observable<LoginResponse> {
@@ -20,7 +21,9 @@ export class AuthService {
       .post<LoginResponse>(`${this.apiUrl}/auth/login`, data)
       .pipe(
         map((response: LoginResponse) => {
-          localStorage.setItem(this.jwtToken, response.jwtToken);
+          if (this.isBrowser) {
+            localStorage.setItem(this.jwtToken, response.jwtToken);
+          }
           return response;
         }),
         catchError(this.handleError)
@@ -43,17 +46,14 @@ export class AuthService {
     if (!username) {
       return throwError(() => new Error('could not get the user name'));
     }
-    const headers = new HttpHeaders().set(
-      'Authorization',
-      `Bearer ${this.getToken()}`
-    );
+
     return this.http
-      .get<any>(`${this.apiUrl}/users/getUserBy/${username}`, { headers })
+      .get<any>(`${this.apiUrl}/users/getUserBy/${username}`)
       .pipe(catchError(this.handleError));
   }
 
-  private getToken() {
-    return localStorage.getItem(this.jwtToken) || '';
+  getToken() {
+    return this.isBrowser ? localStorage.getItem(this.jwtToken) : '';
   }
 
   isLoggedIn(): boolean {
@@ -74,7 +74,9 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.jwtToken);
+    if (this.isBrowser) {
+      localStorage.removeItem(this.jwtToken);
+    }
   }
 
   getUsername = () => {
