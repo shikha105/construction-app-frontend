@@ -1,48 +1,75 @@
 <div>
   <nav>
     <h2 routerLink="/">CITB App</h2>
-    <ul>
-      <li>
+    @if(isLoggedIn()){
+    <div class="logged-in">
+      <div></div>
+      <span>
         <a
           routerLink="/create-meeting"
           routerLinkActive="active"
           ariaCurrentWhenActive="page"
           >Create Meeting</a
         >
-      </li>
-      <li>
-        <a
-          routerLink="/login"
-          routerLinkActive="active"
-          ariaCurrentWhenActive="page"
-          >Login</a
-        >
-      </li>
-      <li>
-        <a
-          routerLink="/register"
-          routerLinkActive="active"
-          ariaCurrentWhenActive="page"
-          >Registration</a
-        >
-      </li>
-      <li>
+      </span>
+      <span>
         <a
           routerLink="/all-meetings"
           routerLinkActive="active"
           ariaCurrentWhenActive="page"
           >View Meetings</a
         >
-      </li>
-      <li>
+      </span>
+      <span>
+        <a
+          routerLink="/profile"
+          routerLinkActive="active"
+          ariaCurrentWhenActive="page"
+          >View Profile</a
+        >
+      </span>
+      <span>
         <a
           routerLink="/about"
           routerLinkActive="active"
           ariaCurrentWhenActive="page"
           >About</a
         >
-      </li>
-    </ul>
+      </span>
+    </div>
+
+    <div>
+      <span>
+        Welcome,
+        {{ name }}, your role is {{ role?.name }}
+      </span>
+      <button (click)="logout()">
+        <span> Logout </span>
+      </button>
+    </div>
+    }@else{
+    <div>
+      <ul>
+        <li>
+          <a
+            routerLink="/login"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            >Login</a
+          >
+        </li>
+
+        <li>
+          <a
+            routerLink="/register"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            >Register</a
+          >
+        </li>
+      </ul>
+    </div>
+    }
   </nav>
   <hr />
 </div>
