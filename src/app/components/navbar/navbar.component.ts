@@ -13,14 +13,13 @@ import { error } from 'console';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
+  constructor() {
+    this.getName();
+  }
+
   authService = inject(AuthService);
   router = inject(Router);
   name: string | null = null;
-  role: Role | null = null;
-
-  ngOnInit() {
-    this.getName();
-  }
 
   isLoggedIn() {
     return this.authService.isLoggedIn();
@@ -35,10 +34,9 @@ export class NavbarComponent {
     user.subscribe(
       (response) => {
         this.name = response.name;
-        this.role = response.role;
       },
       (error) => {
-        throw error;
+        console.log(error, 'Error in getName()');
       }
     );
   }
