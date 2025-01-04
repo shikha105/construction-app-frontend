@@ -10,13 +10,19 @@ import { AboutComponent } from './components/about/about.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { authGuard } from './guards/auth.guard';
 import { UsersComponent } from './pages/users/users.component';
+import { roleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
   { path: 'create-meeting', component: CreateMeetingComponent },
   { path: 'all-meetings', component: AllMeetingsComponent },
   { path: 'update-meeting', component: UpdateMeetingComponent },
   { path: 'view-meeting', component: ViewMeetingComponent },
-  { path: 'users', component: UsersComponent },
+  {
+    path: 'users',
+    component: UsersComponent,
+    canActivate: [roleGuard],
+    data: { roles: ['ADMIN'] },
+  },
   { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent },

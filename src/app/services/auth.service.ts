@@ -14,6 +14,7 @@ export class AuthService {
   private apiUrl = environment.apiUrl;
   private jwtToken = 'jwtToken';
   private isBrowser: boolean = typeof window !== 'undefined';
+  role: any;
   constructor(private http: HttpClient) {}
 
   login(data: any): Observable<LoginResponse> {
@@ -89,5 +90,18 @@ export class AuthService {
   private handleError(error: any): Observable<never> {
     console.error('HTTP Error:', error);
     return throwError(() => error);
+  }
+
+  getRole() {
+    return this.getUserDetails().pipe(
+      map((response) => {
+        this.role = response.role?.name || null;
+        return this.role;
+      }),
+      catchError((error) => {
+        console.error('eror fetching role:', error);
+        return throwError(() => error);
+      })
+    );
   }
 }
