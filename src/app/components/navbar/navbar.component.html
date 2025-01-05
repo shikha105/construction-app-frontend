@@ -12,7 +12,14 @@
           >Register</a
         >
       </span>
-
+      <span *ngIf="isAdmin">
+        <a
+          routerLink="/users"
+          routerLinkActive="active"
+          ariaCurrentWhenActive="page"
+          >view all users</a
+        >
+      </span>
       <span>
         <a
           routerLink="/create-meeting"
