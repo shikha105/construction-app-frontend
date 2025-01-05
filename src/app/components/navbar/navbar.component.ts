@@ -1,25 +1,28 @@
-import { Component, inject, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../interfaces/user';
-import { Role } from '../../interfaces/role';
-import { error } from 'console';
+import { map } from 'rxjs';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, NgIf],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
-  constructor() {
+  constructor() {}
+
+  ngOnInit() {
     this.getName();
+    this.hasRole('ADMIN');
   }
 
   authService = inject(AuthService);
   router = inject(Router);
   name: string | null = null;
+  isAdmin = false;
 
   isLoggedIn() {
     return this.authService.isLoggedIn();
@@ -39,5 +42,19 @@ export class NavbarComponent {
         console.log(error, 'Error in getName()');
       }
     );
+  }
+
+  hasRole(role: string) {
+    return this.authService
+      .getRole()
+      .pipe(map((userRole: string) => userRole === role))
+      .subscribe(
+        (hasAccess) => {
+          this.isAdmin = hasAccess;
+        },
+        (error) => {
+          console.log('Error checking role', error);
+        }
+      );
   }
 }

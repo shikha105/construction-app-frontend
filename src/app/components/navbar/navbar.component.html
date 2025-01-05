@@ -2,8 +2,17 @@
   <nav>
     <h2 routerLink="/">CITB App</h2>
     @if(isLoggedIn()){
+
     <div class="logged-in">
-      <div></div>
+      <span *ngIf="isAdmin">
+        <a
+          routerLink="/register"
+          routerLinkActive="active"
+          ariaCurrentWhenActive="page"
+          >Register</a
+        >
+      </span>
+
       <span>
         <a
           routerLink="/create-meeting"
@@ -62,15 +71,6 @@
             routerLinkActive="active"
             ariaCurrentWhenActive="page"
             >Login</a
-          >
-        </li>
-
-        <li>
-          <a
-            routerLink="/register"
-            routerLinkActive="active"
-            ariaCurrentWhenActive="page"
-            >Register</a
           >
         </li>
       </ul>
