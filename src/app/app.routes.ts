@@ -25,7 +25,12 @@ export const routes: Routes = [
   },
   { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegistrationComponent },
+  {
+    path: 'register',
+    component: RegistrationComponent,
+    canActivate: [roleGuard],
+    data: { roles: ['ADMIN'] },
+  },
   { path: '', redirectTo: '/all-meetings', pathMatch: 'full' },
   {
     path: 'about',
