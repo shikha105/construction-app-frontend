@@ -1,1 +1,49 @@
-<p>view-meetings works!</p>
+<div>
+  <h2>View Meeting Details</h2>
+</div>
+
+<div>
+  <table>
+    <tbody>
+      <tr>
+        <th>Title:</th>
+        <td>{{ meeting.title }}</td>
+      </tr>
+      <tr>
+        <th>Description:</th>
+        <td>{{ meeting.description }}</td>
+      </tr>
+      <tr>
+        <th>Start Date:</th>
+        <td>{{ meeting.startDate }}</td>
+      </tr>
+      <tr>
+        <th>Start Time:</th>
+        <td>{{ meeting.startTime }}</td>
+      </tr>
+      <tr>
+        <th>End Date:</th>
+        <td>{{ meeting.endDate }}</td>
+      </tr>
+      <tr>
+        <th>End Time:</th>
+        <td>{{ meeting.endTime }}</td>
+      </tr>
+      <tr>
+        <th>Location:</th>
+        <td>{{ meeting.location }}</td>
+      </tr>
+      <tr>
+        <th>Guests:</th>
+        @for(guest of meeting.guests; track guest.id){
+        <td>{{ guest.email }},</td>
+        }
+      </tr>
+
+      <tr>
+        <th>Status:</th>
+        <td>{{ meeting.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

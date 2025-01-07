@@ -1,8 +1,7 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -32,6 +31,16 @@ export class MeetingService {
 
     return this.http
       .get<any>(`${this.apiUrl}/meetings/getAll/${userId}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  getOneMeeting(meetingId: any): Observable<any> {
+    if (!meetingId) {
+      return throwError(() => new Error('could not get the meeting Id'));
+    }
+
+    return this.http
+      .get<any>(`${this.apiUrl}/meetings/${meetingId}`)
       .pipe(catchError(this.handleError));
   }
 }
