@@ -1,1 +1,102 @@
-<p>all-meetings works!</p>
+<div class="meetings-container">
+  <div><h2>All meetings</h2></div>
+  <hr />
+  <div>
+    <h3>Upcoming Meetings</h3>
+    <table *ngIf="(meetings$ | async)?.length > 0">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Date</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>location</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          *ngFor="
+            let meeting of meetings$ | async | filterByStatus : 'UPCOMING'
+          "
+        >
+          <td>{{ meeting.title }}</td>
+          <td>{{ meeting.description }}</td>
+          <td>{{ meeting.startDate | date }}</td>
+          <td>{{ meeting.startTime }}</td>
+
+          <td>{{ meeting.endTime }}</td>
+          <td>{{ meeting.location }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <hr />
+
+  <div>
+    <h3>Completed Meetings</h3>
+    <table *ngIf="(meetings$ | async)?.length > 0">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Date</th>
+          <th>Start Time</th>
+
+          <th>End Time</th>
+          <th>location</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          *ngFor="
+            let meeting of meetings$ | async | filterByStatus : 'COMPLETED'
+          "
+        >
+          <td>{{ meeting.title }}</td>
+          <td>{{ meeting.description }}</td>
+          <td>{{ meeting.startDate | date }}</td>
+          <td>{{ meeting.startTime }}</td>
+
+          <td>{{ meeting.endTime }}</td>
+          <td>{{ meeting.location }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <hr />
+  <div>
+    <h3>Cancelled Meetings</h3>
+    <table *ngIf="(meetings$ | async)?.length > 0">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Date</th>
+          <th>Start Time</th>
+
+          <th>End Time</th>
+          <th>location</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          *ngFor="
+            let meeting of meetings$ | async | filterByStatus : 'CANCELLED'
+          "
+        >
+          <td>{{ meeting.title }}</td>
+          <td>{{ meeting.description }}</td>
+          <td>{{ meeting.startDate | date }}</td>
+          <td>{{ meeting.startTime }}</td>
+
+          <td>{{ meeting.endTime }}</td>
+          <td>{{ meeting.location }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
