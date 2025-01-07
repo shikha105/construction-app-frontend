@@ -16,7 +16,7 @@ export const routes: Routes = [
   { path: 'create-meeting', component: CreateMeetingComponent },
   { path: 'all-meetings', component: AllMeetingsComponent },
   { path: 'update-meeting', component: UpdateMeetingComponent },
-  { path: 'view-meeting', component: ViewMeetingComponent },
+  { path: 'view-meeting/:id', component: ViewMeetingComponent },
   {
     path: 'users',
     component: UsersComponent,
