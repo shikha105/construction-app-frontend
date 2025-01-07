@@ -59,6 +59,10 @@
     >
       End time is required
     </p>
+
+    <p *ngIf="meetingForm.errors?.['invalidDateTime']">
+      {{ meetingForm.errors?.['invalidDateTime'] }}
+    </p>
     <br />
     <label for="description">Description: </label>
     <textarea
@@ -74,23 +78,13 @@
       }
     </select>
     <br />
+
     <label>Guests: </label>
-    <input
-      type="text"
-      id="guests"
-      (keyup)="myFunction()"
-      placeholder="Search for guests.."
-      formControlName="guests"
-    />
-    @if (meetingForm.get('guests')?.touched) {
-    <div>
-      <ul>
-        @for (item of items; track $index) {
-        <li>{{ item }}</li>
-        }
-      </ul>
-    </div>
-    }
+    <select name="guests" id="guests" formControlName="guests" multiple>
+      @for (guest of guestsData | async; track guest) {
+      <option [value]="guest.id">{{ guest.email }}</option>
+      }
+    </select>
 
     <button type="submit" [disabled]="!meetingForm.valid">
       Create Meeting
