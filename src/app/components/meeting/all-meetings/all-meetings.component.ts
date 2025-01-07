@@ -7,11 +7,19 @@ import { AsyncPipe } from '@angular/common';
 import { NgIf, NgFor } from '@angular/common';
 import { DatePipe } from '@angular/common';
 import { FilterByStatusPipe } from '../../../pipes/filter-by-status.pipe';
-
+import { RouterLink, RouterLinkActive } from '@angular/router';
 @Component({
   selector: 'app-all-meetings',
   standalone: true,
-  imports: [AsyncPipe, DatePipe, FilterByStatusPipe, NgIf, NgFor],
+  imports: [
+    AsyncPipe,
+    DatePipe,
+    FilterByStatusPipe,
+    NgIf,
+    NgFor,
+    RouterLink,
+    RouterLinkActive,
+  ],
   templateUrl: './all-meetings.component.html',
   styleUrl: './all-meetings.component.css',
 })

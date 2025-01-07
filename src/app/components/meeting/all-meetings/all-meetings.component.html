@@ -21,7 +21,13 @@
             let meeting of meetings$ | async | filterByStatus : 'UPCOMING'
           "
         >
-          <td>{{ meeting.title }}</td>
+          <td>
+            <a
+              [routerLink]="['/view-meeting', meeting.id]"
+              routerLinkActive="active"
+              >{{ meeting.title }}</a
+            >
+          </td>
           <td>{{ meeting.description }}</td>
           <td>{{ meeting.startDate | date }}</td>
           <td>{{ meeting.startTime }}</td>
@@ -55,7 +61,13 @@
             let meeting of meetings$ | async | filterByStatus : 'COMPLETED'
           "
         >
-          <td>{{ meeting.title }}</td>
+          <td>
+            <a
+              [routerLink]="['/view-meeting', meeting.id]"
+              routerLinkActive="active"
+              >{{ meeting.title }}</a
+            >
+          </td>
           <td>{{ meeting.description }}</td>
           <td>{{ meeting.startDate | date }}</td>
           <td>{{ meeting.startTime }}</td>
@@ -88,7 +100,13 @@
             let meeting of meetings$ | async | filterByStatus : 'CANCELLED'
           "
         >
-          <td>{{ meeting.title }}</td>
+          <td>
+            <a
+              [routerLink]="['/view-meeting', meeting.id]"
+              routerLinkActive="active"
+              >{{ meeting.title }}</a
+            >
+          </td>
           <td>{{ meeting.description }}</td>
           <td>{{ meeting.startDate | date }}</td>
           <td>{{ meeting.startTime }}</td>
