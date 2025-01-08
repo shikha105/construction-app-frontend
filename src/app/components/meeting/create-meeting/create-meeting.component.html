@@ -1,5 +1,5 @@
 <div class="create-meeting-container">
-  <h2>Create Meeting</h2>
+  <h2>{{ isEditMode ? "Update Meeting" : "Create Meeting" }}</h2>
   <form [formGroup]="meetingForm" (ngSubmit)="onSubmit()">
     <label for="title">Title: </label>
     <input
@@ -87,7 +87,7 @@
     </select>
 
     <button type="submit" [disabled]="!meetingForm.valid">
-      Create Meeting
+      {{ isEditMode ? "Update Meeting" : "Create Meeting" }}
     </button>
     <button [disabled]="meetingForm.pristine" (click)="onReset()">Reset</button>
   </form>

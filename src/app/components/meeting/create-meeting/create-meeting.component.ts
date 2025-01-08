@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MeetingService } from '../../../services/meeting.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { AsyncPipe } from '@angular/common';
 import { NgIf } from '@angular/common';
@@ -28,7 +28,10 @@ export class CreateMeetingComponent {
   meetingService = inject(MeetingService);
   userService = inject(UserService);
   router = inject(Router);
-
+  route = inject(ActivatedRoute);
+  isEditMode = false;
+  meetingForm: any;
+  meetingId: string | null = null;
   locations: Location[] = [
     { value: 'meeting-room-1', viewValue: 'Meeting Room 1' },
     { value: 'meeting-room-2', viewValue: 'Meeting Room 2' },
@@ -37,37 +40,55 @@ export class CreateMeetingComponent {
 
   guestsData = this.userService.getAllUsers();
 
-  items = ['shikha105789@gmail.com', 'xyzbdhjd'];
-  title = new FormControl('', Validators.required);
-  description = new FormControl('', Validators.required);
-  startDate = new FormControl('', Validators.required);
-  startTime = new FormControl('', Validators.required);
-  endDate = new FormControl('', Validators.required);
-  endTime = new FormControl('', Validators.required);
-  location = new FormControl('', Validators.required);
-  guests = new FormControl([], Validators.required);
+  ngOnInit() {
+    this.route.params.subscribe((params) => {
+      this.meetingId = params['id'];
+      this.isEditMode = !!this.meetingId;
 
-  meetingForm = new FormGroup(
-    {
-      title: this.title,
-      description: this.description,
-      startDate: this.startDate,
-      startTime: this.startTime,
-      endDate: this.endDate,
-      endTime: this.endTime,
-      location: this.location,
-      guests: this.guests,
-    },
-    { validators: this.dateTimeValidator }
-  );
+      if (this.isEditMode) {
+        this.loadMeetingDetails();
+      }
+    });
 
-  onReset() {
-    this.meetingForm.reset;
+    this.initializeForm();
+  }
+  initializeForm() {
+    this.meetingForm = new FormGroup(
+      {
+        title: new FormControl('', Validators.required),
+        description: new FormControl('', Validators.required),
+        startDate: new FormControl('', Validators.required),
+        startTime: new FormControl('', Validators.required),
+        endDate: new FormControl('', Validators.required),
+        endTime: new FormControl('', Validators.required),
+        location: new FormControl('', Validators.required),
+        guests: new FormControl([], Validators.required),
+      },
+      { validators: this.dateTimeValidator }
+    );
   }
 
-  onSubmit() {
-    console.log(this.meetingForm.value, 'meeting form value');
-    const formData = this.meetingForm.value;
+  loadMeetingDetails() {
+    if (this.meetingId) {
+      this.meetingService.getOneMeeting(this.meetingId).subscribe(
+        (meeting) => {
+          const { guests, ...rest } = meeting;
+          this.meetingForm.patchValue({
+            ...rest,
+            guests: guests.map((guest: { id: string }) => guest.id),
+          });
+        },
+        (error) => console.error('Error loading meeting:', error)
+      );
+    }
+  }
+
+  onReset() {
+    this.meetingForm?.reset();
+  }
+
+  createMeeting() {
+    const formData = this.meetingForm?.value;
     const formattedGuests = (formData.guests ?? []).map((id: string) => ({
       id,
     }));
@@ -75,7 +96,7 @@ export class CreateMeetingComponent {
     this.meetingService.createMeeting(modifiedFormData).subscribe({
       next: (response) => {
         console.log('create meeting success:', response);
-        this.router.navigate(['/all-meetings']);
+        this.router.navigate(['/meetings']);
       },
       error: (error) => {
         console.error('Error in createMeeting', error.error.message);
@@ -83,6 +104,31 @@ export class CreateMeetingComponent {
     });
   }
 
+  updateMeeting() {
+    const formData = this.meetingForm?.value;
+    const formattedGuests = (formData.guests ?? []).map((id: string) => ({
+      id,
+    }));
+    const modifiedFormData = { ...formData, guests: formattedGuests };
+    this.meetingService
+      .updateMeeting(modifiedFormData, this.meetingId)
+      .subscribe({
+        next: (response) => {
+          this.router.navigate(['/meetings']);
+        },
+        error: (error) => {
+          console.error('Error in createMeeting', error.error.message);
+        },
+      });
+  }
+
+  onSubmit() {
+    if (this.isEditMode) {
+      this.updateMeeting();
+    } else {
+      this.createMeeting();
+    }
+  }
   dateTimeValidator(group: AbstractControl): ValidationErrors | null {
     const startDate = group.get('startDate')?.value;
     const startTime = group.get('startTime')?.value;
@@ -101,9 +147,5 @@ export class CreateMeetingComponent {
     }
 
     return null;
-  }
-
-  myFunction() {
-    console.log('my function should do something i guess');
   }
 }

@@ -18,7 +18,19 @@ export class MeetingService {
       catchError(this.handleError)
     );
   }
-
+  updateMeeting(data: any, meetingId: any): Observable<any> {
+    if (!meetingId) {
+      return throwError(() => new Error('meetingId is missing'));
+    }
+    return this.http
+      .put<any>(`${this.apiUrl}/meetings/${meetingId}`, data)
+      .pipe(
+        map((response: any) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
   private handleError(error: any): Observable<never> {
     console.error('HTTP Error:', error);
     return throwError(() => error);
