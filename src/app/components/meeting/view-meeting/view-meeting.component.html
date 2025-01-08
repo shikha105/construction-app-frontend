@@ -1,8 +1,6 @@
-<div>
+<div *ngIf="meeting">
   <h2>View Meeting Details</h2>
-</div>
 
-<div>
   <table>
     <tbody>
       <tr>
@@ -46,4 +44,7 @@
       </tr>
     </tbody>
   </table>
+  <div>
+    <button (click)="navigateToEdit()">Edit Meeting</button>
+  </div>
 </div>
