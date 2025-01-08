@@ -4,7 +4,6 @@ import { AllMeetingsComponent } from './components/meeting/all-meetings/all-meet
 import { RegistrationComponent } from './components/auth/registration/registration.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { ViewMeetingComponent } from './components/meeting/view-meeting/view-meeting.component';
-import { UpdateMeetingComponent } from './components/meeting/update-meeting/update-meeting.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { AboutComponent } from './components/about/about.component';
 import { ProfileComponent } from './components/profile/profile.component';
@@ -13,10 +12,10 @@ import { UsersComponent } from './pages/users/users.component';
 import { roleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
-  { path: 'create-meeting', component: CreateMeetingComponent },
-  { path: 'all-meetings', component: AllMeetingsComponent },
-  { path: 'update-meeting', component: UpdateMeetingComponent },
-  { path: 'view-meeting/:id', component: ViewMeetingComponent },
+  { path: 'meetings/create', component: CreateMeetingComponent },
+  { path: 'meetings', component: AllMeetingsComponent },
+  { path: 'meetings/edit/:id', component: CreateMeetingComponent },
+  { path: 'meetings/view/:id', component: ViewMeetingComponent },
   {
     path: 'users',
     component: UsersComponent,
@@ -31,7 +30,7 @@ export const routes: Routes = [
     canActivate: [roleGuard],
     data: { roles: ['ADMIN'] },
   },
-  { path: '', redirectTo: '/all-meetings', pathMatch: 'full' },
+  { path: '', redirectTo: '/meetings', pathMatch: 'full' },
   {
     path: 'about',
     loadComponent: () =>
