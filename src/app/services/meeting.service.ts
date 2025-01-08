@@ -55,4 +55,14 @@ export class MeetingService {
       .get<any>(`${this.apiUrl}/meetings/${meetingId}`)
       .pipe(catchError(this.handleError));
   }
+
+  cancelMeeting(meetingId: any): Observable<any> {
+    if (!meetingId) {
+      return throwError(() => new Error('could not get the meeting id'));
+    }
+
+    return this.http
+      .put<any>(`${this.apiUrl}/meetings/cancel/${meetingId}`, {})
+      .pipe(catchError(this.handleError));
+  }
 }

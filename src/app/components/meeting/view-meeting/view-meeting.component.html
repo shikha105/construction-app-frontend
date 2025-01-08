@@ -44,7 +44,13 @@
       </tr>
     </tbody>
   </table>
+  @if(meeting.status ==='UPCOMING'){
   <div>
+    <span>
+      <button (click)="cancelMeeting()">Cancel Meeting</button>
+    </span>
+
     <button (click)="navigateToEdit()">Edit Meeting</button>
   </div>
+  }
 </div>

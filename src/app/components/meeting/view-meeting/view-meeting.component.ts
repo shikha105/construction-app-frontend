@@ -38,6 +38,18 @@ export class ViewMeetingComponent {
   navigateToEdit() {
     this.router.navigate(['/meetings/edit', this.meetingId]);
   }
+
+  cancelMeeting() {
+    this.meetingService.cancelMeeting(this.meetingId).subscribe(
+      (response) => {
+        console.log(response, 'response of cancel meeting');
+      },
+      (error) => {
+        console.log('error in cancel meeting', error);
+      }
+    );
+    this.router.navigate(['/meetings']);
+  }
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
