@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { PortfolioService } from '../../../services/portfolio.service';
 import {
   FormControl,
   FormGroup,
@@ -6,6 +7,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-create-portfolio',
   standalone: true,
@@ -16,6 +19,10 @@ import { NgFor, NgIf } from '@angular/common';
 export class CreatePortfolioComponent {
   portfolioForm!: FormGroup;
   files: File[] = [];
+  constructor(
+    private portfolioService: PortfolioService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.portfolioForm = new FormGroup({
@@ -52,26 +59,29 @@ export class CreatePortfolioComponent {
 
   onSubmit() {
     const formData = new FormData();
-    formData.append('title', this.portfolioForm.get('title')?.value);
+
+    const portfolio = {
+      title: this.portfolioForm.get('title')?.value,
+      description: this.portfolioForm.get('description')?.value,
+    };
     formData.append(
-      'description',
-      this.portfolioForm.get('description')?.value
+      'portfolio',
+      new Blob([JSON.stringify(portfolio)], { type: 'application/json' })
     );
 
     this.files.forEach((file) => {
-      formData.append('images', file);
+      const blob = new Blob([file], { type: file.type });
+      formData.append('images', blob, file.name);
     });
 
-    (formData as FormData).forEach((value, key) => {
-      if (key === 'images') {
-        console.log(`${key}: ${(value as File).name}`);
-      } else {
-        console.log(`${key}: ${value}`);
-      }
-    });
-
-    (formData as FormData).forEach((data) => {
-      console.log('form data ka data', data);
+    this.portfolioService.createPortfolio(formData).subscribe({
+      next: (response) => {
+        console.log('create portfolio:', response);
+        this.router.navigate(['/portfolios']);
+      },
+      error: (error) => {
+        console.error('Error in portfoilo creation', error.error.message);
+      },
     });
   }
 }
