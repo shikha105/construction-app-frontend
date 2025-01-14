@@ -1,0 +1,67 @@
+<div>
+  <div>
+    <h2>Create portfolio</h2>
+  </div>
+
+  <div>
+    <form [formGroup]="portfolioForm" (ngSubmit)="onSubmit()">
+      <label for="title">Title: </label>
+      <input id="title" type="text" formControlName="title" />
+      <p
+        [hidden]="
+          portfolioForm.get('title')?.valid ||
+          portfolioForm.get('title')?.untouched
+        "
+      >
+        title is required.
+      </p>
+      <br />
+      <label for="description">Description: </label>
+      <textarea
+        id="description"
+        formControlName="description"
+        placeholder=""
+      ></textarea>
+      <p
+        [hidden]="
+          portfolioForm.get('description')?.valid ||
+          portfolioForm.get('description')?.untouched
+        "
+      >
+        description is required.
+      </p>
+      <br />
+      <div>
+        <label for="image">Choose images: </label>
+        <input
+          type="file"
+          formControlName="images"
+          (change)="onFileSelect($event)"
+          multiple
+          accept="image/*"
+        />
+        <br />
+        @if(files.length>5){
+        <p>You can upload a maximum of 5 images.</p>
+        }
+
+        <ul *ngIf="files.length > 1">
+          <li *ngFor="let file of files; let i = index">
+            {{ file.name }}
+            <button type="button" (click)="removeFile(i)">Remove</button>
+          </li>
+        </ul>
+      </div>
+      <button
+        type="submit"
+        [disabled]="!portfolioForm.valid || files.length > 5"
+      >
+        Create Portfolio
+      </button>
+
+      <button [disabled]="portfolioForm.pristine" (click)="onReset()">
+        Reset
+      </button>
+    </form>
+  </div>
+</div>
