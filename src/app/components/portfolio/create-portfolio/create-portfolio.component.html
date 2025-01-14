@@ -45,12 +45,15 @@
         <p>You can upload a maximum of 5 images.</p>
         }
 
-        <ul *ngIf="files.length > 1">
-          <li *ngFor="let file of files; let i = index">
-            {{ file.name }}
-            <button type="button" (click)="removeFile(i)">Remove</button>
-          </li>
-        </ul>
+        <div *ngIf="files.length > 1">
+          <p>Images uploaded till now:</p>
+          <ul>
+            <li *ngFor="let file of files; let i = index">
+              {{ file.name }}
+              <button type="button" (click)="removeFile(i)">Remove</button>
+            </li>
+          </ul>
+        </div>
       </div>
       <button
         type="submit"
