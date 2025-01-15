@@ -25,4 +25,14 @@ export class PortfolioService {
     console.error('HTTP Error:', error);
     return throwError(() => error);
   }
+
+  getPortfoliosbyUserId(userId: any): Observable<any> {
+    if (!userId) {
+      return throwError(() => new Error('could not get the user id'));
+    }
+
+    return this.http
+      .get<any>(`${this.apiUrl}/portfolios/getAll/${userId}`)
+      .pipe(catchError(this.handleError));
+  }
 }
