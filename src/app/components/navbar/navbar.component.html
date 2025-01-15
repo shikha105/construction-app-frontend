@@ -3,8 +3,8 @@
     <h2 routerLink="/">CITB App</h2>
     @if(isLoggedIn()){
 
-    <div class="logged-in">
-      <span *ngIf="isAdmin">
+    <div *ngIf="role === 'ADMIN'" class="logged-in">
+      <span>
         <a
           routerLink="/register"
           routerLinkActive="active"
@@ -12,7 +12,8 @@
           >Register</a
         >
       </span>
-      <span *ngIf="isAdmin">
+
+      <span>
         <a
           routerLink="/users"
           routerLinkActive="active"
@@ -20,6 +21,9 @@
           >view all users</a
         >
       </span>
+    </div>
+
+    <div *ngIf="role === 'OFFICER'">
       <span>
         <a
           routerLink="/meetings/create"
@@ -30,6 +34,16 @@
       </span>
       <span>
         <a
+          routerLink="/meetings"
+          routerLinkActive="active"
+          ariaCurrentWhenActive="page"
+          >View Meetings</a
+        >
+      </span>
+    </div>
+    <div *ngIf="role === 'APPRENTICE'">
+      <span>
+        <a
           routerLink="/portfolios/create"
           routerLinkActive="active"
           ariaCurrentWhenActive="page"
@@ -38,12 +52,24 @@
       </span>
       <span>
         <a
+          routerLink="/portfolios/view"
+          routerLinkActive="active"
+          ariaCurrentWhenActive="page"
+          >View Portfolios</a
+        >
+      </span>
+
+      <span>
+        <a
           routerLink="/meetings"
           routerLinkActive="active"
           ariaCurrentWhenActive="page"
           >View Meetings</a
         >
       </span>
+    </div>
+
+    <div>
       <span>
         <a
           routerLink="/profile"
@@ -60,9 +86,6 @@
           >About</a
         >
       </span>
-    </div>
-
-    <div>
       <span>
         <a
           routerLink="/profile"
@@ -77,7 +100,9 @@
         <span> Logout </span>
       </button>
     </div>
+
     }@else{
+
     <div>
       <ul>
         <li>

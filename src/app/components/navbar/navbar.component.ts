@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { map } from 'rxjs';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -16,14 +15,13 @@ export class NavbarComponent {
 
   ngOnInit() {
     this.getName();
-    this.hasRole('ADMIN');
+    this.getRole();
   }
 
   authService = inject(AuthService);
   router = inject(Router);
   name: string | null = null;
-  isAdmin = false;
-
+  role: string | null = null;
   isLoggedIn() {
     return this.authService.isLoggedIn();
   }
@@ -37,6 +35,7 @@ export class NavbarComponent {
     user.subscribe(
       (response) => {
         this.name = response.name;
+        console.log('get name', this.name);
       },
       (error) => {
         console.log(error, 'Error in getName()');
@@ -44,17 +43,15 @@ export class NavbarComponent {
     );
   }
 
-  hasRole(role: string) {
-    return this.authService
-      .getRole()
-      .pipe(map((userRole: string) => userRole === role))
-      .subscribe(
-        (hasAccess) => {
-          this.isAdmin = hasAccess;
-        },
-        (error) => {
-          console.log('Error checking role', error);
-        }
-      );
+  getRole() {
+    return this.authService.getRole().subscribe(
+      (response) => {
+        console.log('get role response', response);
+        this.role = response;
+      },
+      (error) => {
+        console.log('Error checking role', error);
+      }
+    );
   }
 }
