@@ -1,0 +1,44 @@
+<div class="portfolios-container">
+  <div><h2>All portfolios</h2></div>
+  <hr />
+  <div>
+    <table *ngIf="(portfolios$ | async)?.length > 0">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Images</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let portfolio of portfolios$ | async">
+          <td>
+            <a
+              [routerLink]="['/portfolios/view', portfolio.id]"
+              routerLinkActive="active"
+              >{{ portfolio.title }}</a
+            >
+          </td>
+          <td>{{ portfolio.description }}</td>
+          <td>
+            @for(image of portfolio.imageUrls ; track image){
+
+            <div class="images-container">
+              <a [href]="image" target="_blank">
+                <img
+                  [src]="image"
+                  alt="Portfolio Thumbnail"
+                  class="portfolio-thumbnail"
+                />
+              </a>
+            </div>
+
+            }
+          </td>
+          <hr />
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
