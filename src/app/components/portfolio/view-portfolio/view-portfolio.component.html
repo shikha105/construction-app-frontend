@@ -1,1 +1,16 @@
-<p>view-portfolio works!</p>
+<div>
+  <h2>
+    {{ portfolio.title }}
+  </h2>
+
+  <p>Description: {{ portfolio.description }}</p>
+  <div *ngFor="let image of portfolio.imageUrls" class="images-container">
+    <a [href]="image" target="_blank">
+      <img
+        [src]="image"
+        alt="Portfolio Thumbnail"
+        class="portfolio-thumbnail"
+      />
+    </a>
+  </div>
+</div>
