@@ -35,4 +35,14 @@ export class PortfolioService {
       .get<any>(`${this.apiUrl}/portfolios/getAll/${userId}`)
       .pipe(catchError(this.handleError));
   }
+
+  getPortfolioById(portfolioId: any): Observable<any> {
+    if (!portfolioId) {
+      return throwError(() => new Error('could not get the portfolio Id'));
+    }
+
+    return this.http
+      .get<any>(`${this.apiUrl}/portfolios/${portfolioId}`)
+      .pipe(catchError(this.handleError));
+  }
 }
