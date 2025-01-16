@@ -1,6 +1,6 @@
 <div>
   <div>
-    <h2>Create portfolio</h2>
+    <h2>{{ isEditMode ? "Update Portfolio" : "Create Portfolio" }}</h2>
   </div>
 
   <div>
@@ -46,20 +46,36 @@
         }
 
         <div *ngIf="files.length > 1">
-          <p>Images uploaded till now:</p>
+          <p>Uploaded Images:</p>
           <ul>
             <li *ngFor="let file of files; let i = index">
               {{ file.name }}
+
               <button type="button" (click)="removeFile(i)">Remove</button>
             </li>
           </ul>
         </div>
+        @if(isEditMode===true){
+        <ul>
+          <li *ngFor="let file of files; let i = index">
+            <a [href]="file" target="_blank">
+              <img
+                [src]="file"
+                alt="Portfolio Thumbnail"
+                class="portfolio-thumbnail"
+              />
+            </a>
+
+            <button type="button" (click)="removeFile(i)">Remove</button>
+          </li>
+        </ul>
+        }
       </div>
       <button
         type="submit"
         [disabled]="!portfolioForm.valid || files.length > 5"
       >
-        Create Portfolio
+        {{ isEditMode ? "Update Portfolio" : "Create Portfolio" }}
       </button>
 
       <button [disabled]="portfolioForm.pristine" (click)="onReset()">

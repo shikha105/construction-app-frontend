@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-portfolio',
@@ -19,12 +19,24 @@ import { Router } from '@angular/router';
 export class CreatePortfolioComponent {
   portfolioForm!: FormGroup;
   files: File[] = [];
+  route = inject(ActivatedRoute);
+  isEditMode = false;
+  portfolioId: string | null = null;
   constructor(
     private portfolioService: PortfolioService,
     private router: Router
   ) {}
 
   ngOnInit() {
+    this.route.params.subscribe((params) => {
+      this.portfolioId = params['id'];
+      this.isEditMode = !!this.portfolioId;
+
+      if (this.isEditMode) {
+        this.loadPortfolioDetails();
+      }
+    });
+
     this.portfolioForm = new FormGroup({
       title: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
@@ -57,7 +69,7 @@ export class CreatePortfolioComponent {
     this.portfolioForm.get('images')?.setValue(this.files); // Update the form control
   }
 
-  onSubmit() {
+  createPortfolio() {
     const formData = new FormData();
 
     const portfolio = {
@@ -83,5 +95,56 @@ export class CreatePortfolioComponent {
         console.error('Error in portfoilo creation', error.error.message);
       },
     });
+  }
+  loadPortfolioDetails(): void {
+    if (this.portfolioId) {
+      this.portfolioService.getPortfolioById(this.portfolioId).subscribe({
+        next: (portfolio) => {
+          this.portfolioForm.patchValue(portfolio);
+          this.files = portfolio.imageUrls;
+        },
+        error: (error) => {
+          console.error('Error loading portfolio details:', error);
+        },
+      });
+    }
+  }
+
+  updatePortfolio(): void {
+    const formData = new FormData();
+
+    const portfolio = {
+      title: this.portfolioForm.get('title')?.value,
+      description: this.portfolioForm.get('description')?.value,
+    };
+
+    formData.append(
+      'portfolio',
+      new Blob([JSON.stringify(portfolio)], { type: 'application/json' })
+    );
+    this.files.forEach((file) => {
+      const blob = new Blob([file], { type: file.type });
+      formData.append('images', blob, file.name);
+    });
+
+    this.portfolioService
+      .updatePortfolio(this.portfolioId, formData)
+      .subscribe({
+        next: (response) => {
+          console.log('Portfolio updated successfully:', response);
+          this.router.navigate(['/portfolios']);
+        },
+        error: (error) => {
+          console.error('Error updating portfolio:', error.error.message);
+        },
+      });
+  }
+
+  onSubmit() {
+    if (this.isEditMode) {
+      this.updatePortfolio();
+    } else {
+      this.createPortfolio();
+    }
   }
 }
