@@ -43,5 +43,8 @@ export class AllPortfoliosComponent {
         this.userId
       );
     }
+    this.portfolios$.subscribe((response) => {
+      console.log('portfolio list  ', response);
+    });
   }
 }
