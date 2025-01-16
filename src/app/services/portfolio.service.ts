@@ -45,4 +45,27 @@ export class PortfolioService {
       .get<any>(`${this.apiUrl}/portfolios/${portfolioId}`)
       .pipe(catchError(this.handleError));
   }
+  updatePortfolio(portfolioId: any, data: any): Observable<any> {
+    if (!portfolioId) {
+      return throwError(() => new Error('portfolioId is missing'));
+    }
+    return this.http
+      .put<any>(`${this.apiUrl}/portfolios/${portfolioId}`, data)
+      .pipe(
+        map((response: any) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  deletePortfolio(portfolioId: any): Observable<any> {
+    if (!portfolioId) {
+      return throwError(() => new Error('could not get the portfolioId'));
+    }
+
+    return this.http
+      .delete<any>(`${this.apiUrl}/portfolios/${portfolioId}`, {})
+      .pipe(catchError(this.handleError));
+  }
 }
