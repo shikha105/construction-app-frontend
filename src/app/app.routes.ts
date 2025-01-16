@@ -42,6 +42,7 @@ export const routes: Routes = [
   },
   { path: 'portfolios/view/:id', component: ViewPortfolioComponent },
   { path: 'portfolios', component: AllPortfoliosComponent },
+  { path: 'portfolios/edit/:id', component: CreatePortfolioComponent },
   {
     path: 'about',
     loadComponent: () =>
