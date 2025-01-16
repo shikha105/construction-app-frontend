@@ -14,3 +14,13 @@
     </a>
   </div>
 </div>
+
+@if(role ==='APPRENTICE'){
+<div>
+  <span>
+    <button (click)="deletePortfolio()">Delete Portfolio</button>
+  </span>
+
+  <button (click)="navigateToEdit()">Edit Portfolio</button>
+</div>
+}
